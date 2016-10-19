@@ -1,15 +1,25 @@
 import React from 'react';
-
-import Avatar from 'material-ui/Avatar';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import IconButton from 'material-ui/IconButton';
+import LinearProgress from 'material-ui/LinearProgress';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions.js'
 import { commonActions } from '../../components/commonRedux'
+
+const addBtnStyle = {
+  position: "fixed",
+  left: "5%",
+  bottom: "10%"
+};
+
+const lowStyle = { color: "#03A9F4" };
+const highStyle = { color: "#FF5722" };
 
 class ListPage extends React.Component {
 
@@ -19,121 +29,87 @@ class ListPage extends React.Component {
 
   componentDidMount() {
     this.props.actions.changeHeaderAndFooter('血压体重', 1);
-    if (this.props.needReloadList) {
+    // if (this.props.needReloadList) {
       this.props.actions.fetchList();
-    }
+    // }
+  }
+
+  openAdd = () => {
+    this.context.router.push('/app/heart/add')
   }
 
   render() {
+    const { listData, fetchListPending, fetchListError, needReloadList } = this.props
+
     return (
       <div>
-        <List>
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-          <ListItem
-            leftAvatar={<Avatar src="" />}
-
-            primaryText="me, Scott, Jennifer"
-            secondaryText={
-              <p>
-                <span style={{ color: darkBlack }}>Summer BBQ</span><br />
-                Wish I could come, but I&apos;m out of town this weekend.
-            </p>
-            }
-            secondaryTextLines={2}
-            />
-          <Divider inset={true} />
-        </List>
+        <div style={addBtnStyle}>
+          <FloatingActionButton mini={true} onTouchTap={() => this.openAdd()} >
+            <ContentAdd />
+          </FloatingActionButton>
+        </div>
+        {fetchListPending && <div>
+          <Card>
+            <CardHeader title="加载中..." subtitle={<LinearProgress mode="indeterminate" />} />
+          </Card>
+        </div>}
+        {fetchListError && <div>
+          <Card>
+            <CardHeader title="获取失败" subtitle={fetchListError.message || fetchListError.toString()} />
+          </Card>
+        </div>}
+        {!fetchListPending && !fetchListError && (!listData || listData.length < 1) ?
+          (<div>
+            <Card>
+              <CardHeader title="无数据" />
+            </Card>
+          </div>)
+          :
+          <div>
+            {listData.map(this.renderCard)}
+          </div>
+        }
       </div>
+    )
+  }
+
+  renderCard = (item, idx) => {
+    return (
+      <Card key={idx}>
+        <CardHeader title={item.groupdate} actAsExpander={true} showExpandableButton={true} />
+        <CardText expandable={true}>
+          <Table>
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn>血压<br />(mmHg)</TableHeaderColumn>
+                <TableHeaderColumn>心率<br />(bpm)</TableHeaderColumn>
+                <TableHeaderColumn>体重<br />(kg)</TableHeaderColumn>
+                <TableHeaderColumn>时间</TableHeaderColumn>
+                <TableHeaderColumn></TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={false}>
+              {item.listdata.map(this.renderTableRow)}
+            </TableBody>
+          </Table>
+        </CardText>
+      </Card>
+    )
+  }
+
+  renderTableRow = (item, idx) => {
+    return (
+      <TableRow key={idx}>
+        <TableRowColumn>
+          <span style={lowStyle}>{item.low}</span>-<span style={highStyle}>{item.high}</span>
+        </TableRowColumn>
+        <TableRowColumn>{item.heartbeat}</TableRowColumn>
+        <TableRowColumn>{item.weight}</TableRowColumn>
+        <TableRowColumn>{item.date}</TableRowColumn>
+        <TableRowColumn>
+          <IconButton iconClassName="fa fa-trash-o" iconStyle={{ 'fontSize': '16px' }} />
+        </TableRowColumn>
+      </TableRow>
     )
   }
 };
@@ -155,7 +131,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators({ ...actions, ...commonActions }, dispatch)
-  }
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListPage)

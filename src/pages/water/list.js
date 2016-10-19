@@ -14,7 +14,7 @@ import { commonActions } from '../../components/commonRedux'
 
 const addBtnStyle = {
   position: "fixed",
-  right: "5%",
+  left: "5%",
   bottom: "10%"
 };
 
@@ -29,9 +29,9 @@ class ListPage extends React.Component {
 
   componentDidMount() {
     this.props.actions.changeHeaderAndFooter('出入量', 0);
-    if (this.props.needReloadList) {
+    // if (this.props.needReloadList) {
       this.props.actions.fetchList();
-    }
+    // }
   }
 
   openAdd = () => {
@@ -39,7 +39,7 @@ class ListPage extends React.Component {
   }
 
   render() {
-    const { listData, fetchListPending, fetchListError } = this.props
+    const { listData, fetchListPending, fetchListError, needReloadList } = this.props
 
     return (
       <div>
@@ -147,7 +147,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators({ ...actions, ...commonActions }, dispatch)
-  }
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListPage)

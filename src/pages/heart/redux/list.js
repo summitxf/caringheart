@@ -7,7 +7,7 @@ export function fetchList() {
       type: 'FETCH_LIST_BEGIN',
     });
 
-    return fetch('/static/data/waterlist.json')
+    return fetch('/static/data/heartlist.json')
       .then(response => response.json())
       .then(json => {
         dispatch({

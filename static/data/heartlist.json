@@ -1,0 +1,54 @@
+[
+  {
+    "groupdate": "2016-10-07",
+    "listdata": [
+      {
+        "date": "10:22:22",
+        "low": "90",
+        "high": "110",
+        "heartbeat": "55",
+        "weight": "61"
+      },
+      {
+        "date": "11:22:22",
+        "low": "80",
+        "high": "120",
+        "heartbeat": "58",
+        "weight": "62"
+      },
+      {
+        "date": "13:22:22",
+        "low": "93",
+        "high": "130",
+        "heartbeat": "60",
+        "weight": "63"
+      }
+    ]
+  },
+  {
+    "groupdate": "2016-10-06",
+    "listdata": [
+      {
+        "date": "10:22:22",
+        "low": "90",
+        "high": "110",
+        "heartbeat": "60",
+        "weight": "60"
+      },
+      {
+        "date": "11:22:22",
+        "low": "93",
+        "high": "120",
+        "heartbeat": "66",
+        "weight": "53"
+      },
+      {
+        "date": "13:22:22",
+        "low": "90",
+        "high": "130",
+        "heartbeat": "67",
+        "weight": "55"
+      }
+    ]
+  }
+]
