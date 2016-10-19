@@ -1,0 +1,46 @@
+[
+  {
+    "groupdate": "2016-10-07",
+    "groupinamount": "400",
+    "groupoutamount": "200",
+    "listdata": [
+      {
+        "date": "10:22:22",
+        "type": "in",
+        "amount": "200"
+      },
+      {
+        "date": "11:22:22",
+        "type": "out",
+        "amount": "200"
+      },
+      {
+        "date": "13:22:22",
+        "type": "in",
+        "amount": "200"
+      }
+    ]
+  },
+  {
+    "groupdate": "2016-10-06",
+    "groupinamount": "200",
+    "groupoutamount": "400",
+    "listdata": [
+      {
+        "date": "10:22:22",
+        "type": "out",
+        "amount": "200"
+      },
+      {
+        "date": "11:22:22",
+        "type": "in",
+        "amount": "200"
+      },
+      {
+        "date": "13:22:22",
+        "type": "out",
+        "amount": "200"
+      }
+    ]
+  }
+]
