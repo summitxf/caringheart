@@ -9,7 +9,7 @@ import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions.js'
-import { changeHeader } from '../../components/Header/redux'
+import { commonActions } from '../../components/commonRedux'
 
 class ListPage extends React.Component {
 
@@ -18,7 +18,7 @@ class ListPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.actions.changeHeader('血压体重');
+    this.props.actions.changeHeaderAndFooter('血压体重', 1);
     if (this.props.needReloadList) {
       this.props.actions.fetchList();
     }
@@ -154,7 +154,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({ ...actions, changeHeader }, dispatch)
+    actions: bindActionCreators({ ...actions, ...commonActions }, dispatch)
   }
 }
 

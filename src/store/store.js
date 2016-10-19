@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
-import { reducer as headerReducer } from '../components/Header/redux';
+import { reducer as commonReducer } from '../components/commonRedux';
 import waterReducer from '../pages/water/redux/reducer';
 import heartReducer from '../pages/heart/redux/reducer';
 
@@ -13,7 +13,7 @@ const finalCreateStore = compose(
 )(createStore);
 
 const rootReducer = combineReducers({
-  headerReducer,
+  commonReducer,
   waterReducer,
   heartReducer,
   routing: routerReducer

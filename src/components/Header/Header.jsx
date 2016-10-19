@@ -28,7 +28,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { headerTitle } = state.headerReducer;
+  const { headerTitle } = state.commonReducer;
   return {
     headerTitle
   }

@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-export function fetchList() {
+export const fetchList = () => {
   return (dispatch) => {
 
     dispatch({
@@ -26,7 +26,7 @@ export function fetchList() {
   };
 }
 
-export function dismissfetchListError() {
+export const dismissfetchListError = () => {
   return {
     type: 'FETCH_LIST_DISMISS_ERROR',
   };
