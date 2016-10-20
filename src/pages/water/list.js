@@ -29,9 +29,9 @@ class ListPage extends React.Component {
 
   componentDidMount() {
     this.props.actions.changeHeaderAndFooter('出入量', 0);
-    // if (this.props.needReloadList) {
+    if (this.props.needReloadList) {
       this.props.actions.fetchList();
-    // }
+    }
   }
 
   openAdd = () => {
@@ -39,7 +39,7 @@ class ListPage extends React.Component {
   }
 
   render() {
-    const { listData, fetchListPending, fetchListError, needReloadList } = this.props
+    const { listData, listPending, listError, needReloadList } = this.props
 
     return (
       <div>
@@ -48,17 +48,17 @@ class ListPage extends React.Component {
             <ContentAdd />
           </FloatingActionButton>
         </div>
-        {fetchListPending && <div>
+        {listPending && <div>
           <Card>
             <CardHeader title="加载中..." subtitle={<LinearProgress mode="indeterminate" />} />
           </Card>
         </div>}
-        {fetchListError && <div>
+        {listError && <div>
           <Card>
-            <CardHeader title="获取失败" subtitle={fetchListError.message || fetchListError.toString()} />
+            <CardHeader title="获取失败" subtitle={listError.message || listError.toString()} />
           </Card>
         </div>}
-        {!fetchListPending && !fetchListError && (!listData || listData.length < 1) ?
+        {!listPending && !listError && (!listData || listData.length < 1) ?
           (<div>
             <Card>
               <CardHeader title="无数据" />
@@ -135,18 +135,18 @@ ListPage.contextTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const {listData, fetchListPending, fetchListError, needReloadList } = state.waterReducer;
+  const {listData, listPending, listError, needReloadList } = state.waterReducer.water;
   return {
     listData,
-    fetchListPending,
-    fetchListError,
+    listPending,
+    listError,
     needReloadList,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators({ ...actions, ...commonActions }, dispatch)
+    actions: bindActionCreators(Object.assign(actions, commonActions), dispatch)
 }
 }
 

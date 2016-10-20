@@ -1,65 +1,68 @@
 import fetch from 'isomorphic-fetch'
+import update from 'react/lib/update'
 
-export function fetchList() {
+export const fetchList = () => {
   return (dispatch) => {
 
     dispatch({
-      type: 'FETCH_LIST_BEGIN',
+      type: 'FETCH_HEART_LIST_BEGIN',
     });
 
     return fetch('/static/data/heartlist.json')
       .then(response => response.json())
-      .then(json => {
+      .then(data => {
         dispatch({
-          type: 'FETCH_LIST_SUCCESS',
-          data: json,
+          type: 'FETCH_HEART_LIST_SUCCESS',
+          data,
         });
       })
       .catch(error => {
         dispatch({
-          type: 'FETCH_LIST_FAILURE',
-          data: {
-            error,
-          },
+          type: 'FETCH_HEART_LIST_FAILURE',
+          error
         });
       });
   };
 }
 
-export function dismissfetchListError() {
+export const dismissfetchListError = () => {
   return {
-    type: 'FETCH_LIST_DISMISS_ERROR',
+    type: 'FETCH_HEART_LIST_DISMISS_ERROR',
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_LIST_BEGIN':
-      return {
-        ...state,
-        fetchListPending: true,
-      };
+    case 'FETCH_HEART_LIST_BEGIN':
+      return update(state, {
+        heart: {
+          listPending: { $set: true }
+        }
+      });
 
-    case 'FETCH_LIST_SUCCESS':
-      return {
-        ...state,
-        needReloadList: false,
-        listData: action.data,
-        fetchListPending: false,
-      };
+    case 'FETCH_HEART_LIST_SUCCESS':
+      return update(state, {
+        heart: {
+          needReloadList: { $set: false },
+          listData: { $set: action.data },
+          listPending: { $set: false },
+        }
+      });
 
-    case 'FETCH_LIST_FAILURE':
-      return {
-        ...state,
-        fetchListPending: false,
-        fetchListError: action.data.error,
-      };
+    case 'FETCH_HEART_LIST_FAILURE':
+      return update(state, {
+        heart: {
+          listPending: { $set: false },
+          listError: { $set: action.error }
+        }
+      });
 
-    case 'FETCH_LIST_DISMISS_ERROR':
-      return {
-        ...state,
-        fetchListError: null,
-      };
+    case 'FETCH_HEART_LIST_DISMISS_ERROR':
+      return update(state, {
+        heart: {
+          listError: { $set: null }
+        }
+      });
 
     default:
       return state;

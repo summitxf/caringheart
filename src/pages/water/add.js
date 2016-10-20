@@ -7,6 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions.js'
+import { commonActions } from '../../components/commonRedux'
 
 const typeItems = [
   <MenuItem key={1} value={'out'} primaryText="出" />,
@@ -28,9 +29,13 @@ const amountItems = [
 
 class AddPage extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = { type: 'in', amount: 100 };
+  }
+
+  componentDidMount() {
+    this.props.actions.changeHeaderAndFooter('出入量', 0);
   }
 
   handleTypeChange = (event, index, value) => {
@@ -70,7 +75,7 @@ class AddPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { addPending, addError } = state.waterReducer;
+  const { addPending, addError } = state.waterReducer.water;
   return {
     addPending,
     addError,
@@ -79,7 +84,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(Object.assign(actions, commonActions), dispatch)
   }
 }
 

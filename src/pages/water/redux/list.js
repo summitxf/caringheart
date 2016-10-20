@@ -1,26 +1,25 @@
 import fetch from 'isomorphic-fetch'
+import update from 'react/lib/update'
 
 export const fetchList = () => {
   return (dispatch) => {
 
     dispatch({
-      type: 'FETCH_LIST_BEGIN',
+      type: 'FETCH_WATER_LIST_BEGIN',
     });
 
     return fetch('/static/data/waterlist.json')
       .then(response => response.json())
-      .then(json => {
+      .then(data => {
         dispatch({
-          type: 'FETCH_LIST_SUCCESS',
-          data: json,
+          type: 'FETCH_WATER_LIST_SUCCESS',
+          data,
         });
       })
       .catch(error => {
         dispatch({
-          type: 'FETCH_LIST_FAILURE',
-          data: {
-            error,
-          },
+          type: 'FETCH_WATER_LIST_FAILURE',
+          error
         });
       });
   };
@@ -28,38 +27,42 @@ export const fetchList = () => {
 
 export const dismissfetchListError = () => {
   return {
-    type: 'FETCH_LIST_DISMISS_ERROR',
+    type: 'FETCH_WATER_LIST_DISMISS_ERROR',
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_LIST_BEGIN':
-      return {
-        ...state,
-        fetchListPending: true,
-      };
+    case 'FETCH_WATER_LIST_BEGIN':
+      return update(state, {
+        water: {
+          listPending: { $set: true }
+        }
+      });
 
-    case 'FETCH_LIST_SUCCESS':
-      return {
-        ...state,
-        needReloadList: false,
-        listData: action.data,
-        fetchListPending: false,
-      };
+    case 'FETCH_WATER_LIST_SUCCESS':
+      return update(state, {
+        water: {
+          needReloadList: { $set: false },
+          listData: { $set: action.data },
+          listPending: { $set: false },
+        }
+      });
 
-    case 'FETCH_LIST_FAILURE':
-      return {
-        ...state,
-        fetchListPending: false,
-        fetchListError: action.data.error,
-      };
+    case 'FETCH_WATER_LIST_FAILURE':
+      return update(state, {
+        water: {
+          listPending: { $set: false },
+          listError: { $set: action.error }
+        }
+      });
 
-    case 'FETCH_LIST_DISMISS_ERROR':
-      return {
-        ...state,
-        fetchListError: null,
-      };
+    case 'FETCH_WATER_LIST_DISMISS_ERROR':
+      return update(state, {
+        water: {
+          listError: { $set: null }
+        }
+      });
 
     default:
       return state;

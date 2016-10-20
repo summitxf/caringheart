@@ -1,9 +1,10 @@
 import fetch from 'isomorphic-fetch'
+import update from 'react/lib/update'
 
 export const add = data => {
   return dispatch => {
     dispatch({
-      type: 'ADD_BEGIN',
+      type: 'WATER_ADD_BEGIN',
     });
 
     return fetch('/static/data/waterlist.json', {
@@ -17,16 +18,14 @@ export const add = data => {
       .then(response => response.json())
       .then(json => {
         dispatch({
-          type: 'ADD_SUCCESS',
+          type: 'WATER_ADD_SUCCESS',
           data: {},
         });
       }, )
       .catch(error => {
         dispatch({
-          type: 'ADD_FAILURE',
-          data: {
-            error,
-          },
+          type: 'WATER_ADD_FAILURE',
+          error,
         });
       });
 
@@ -35,37 +34,41 @@ export const add = data => {
 
 export const dismissAddError = () => {
   return {
-    type: 'ADD_DISMISS_ERROR',
+    type: 'WATER_ADD_DISMISS_ERROR',
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'ADD_BEGIN':
-      return {
-        ...state,
-        addPending: true,
-      };
+    case 'WATER_ADD_BEGIN':
+      return update(state, {
+        water: {
+          addPending: { $set: true }
+        }
+      });
 
-    case 'ADD_SUCCESS':
-      return {
-        ...state,
-        needReloadList: true,
-        addPending: false,
-      };
+    case 'WATER_ADD_SUCCESS':
+      return update(state, {
+        water: {
+          needReloadList: { $set: true },
+          addPending: { $set: false }
+        }
+      });
 
-    case 'ADD_FAILURE':
-      return {
-        ...state,
-        addPending: false,
-        addError: action.data.error,
-      };
+    case 'WATER_ADD_FAILURE':
+      return update(state, {
+        water: {
+          addPending: { $set: false },
+          addError: { $set: action.error }
+        }
+      });
 
-    case 'ADD_DISMISS_ERROR':
-      return {
-        ...state,
-        addError: null,
-      };
+    case 'WATER_ADD_DISMISS_ERROR':
+      return update(state, {
+        water: {
+          addError: { $set: null }
+        }
+      });
 
     default:
       return state;

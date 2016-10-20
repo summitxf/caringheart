@@ -1,12 +1,13 @@
 import fetch from 'isomorphic-fetch'
+import update from 'react/lib/update'
 
 export const add = data => {
   return dispatch => {
     dispatch({
-      type: 'ADD_BEGIN',
+      type: 'HEART_ADD_BEGIN',
     });
 
-    return fetch('/static/data/waterlist.json', {
+    return fetch('/static/data/heartlist.json', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -17,16 +18,14 @@ export const add = data => {
       .then(response => response.json())
       .then(json => {
         dispatch({
-          type: 'ADD_SUCCESS',
+          type: 'HEART_ADD_SUCCESS',
           data: {},
         });
       }, )
       .catch(error => {
         dispatch({
-          type: 'ADD_FAILURE',
-          data: {
-            error,
-          },
+          type: 'HEART_ADD_FAILURE',
+          error,
         });
       });
 
@@ -35,37 +34,41 @@ export const add = data => {
 
 export const dismissAddError = () => {
   return {
-    type: 'ADD_DISMISS_ERROR',
+    type: 'HEART_ADD_DISMISS_ERROR',
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'ADD_BEGIN':
-      return {
-        ...state,
-        addPending: true,
-      };
+    case 'HEART_ADD_BEGIN':
+      return update(state, {
+        heart: {
+          addPending: { $set: true }
+        }
+      });
 
-    case 'ADD_SUCCESS':
-      return {
-        ...state,
-        needReloadList: true,
-        addPending: false,
-      };
+    case 'HEART_ADD_SUCCESS':
+      return update(state, {
+        heart: {
+          needReloadList: { $set: true },
+          addPending: { $set: false }
+        }
+      });
 
-    case 'ADD_FAILURE':
-      return {
-        ...state,
-        addPending: false,
-        addError: action.data.error,
-      };
+    case 'HEART_ADD_FAILURE':
+      return update(state, {
+        heart: {
+          addPending: { $set: false },
+          addError: { $set: action.error }
+        }
+      });
 
-    case 'ADD_DISMISS_ERROR':
-      return {
-        ...state,
-        addError: null,
-      };
+    case 'HEART_ADD_DISMISS_ERROR':
+      return update(state, {
+        heart: {
+          addError: { $set: null }
+        }
+      });
 
     default:
       return state;
