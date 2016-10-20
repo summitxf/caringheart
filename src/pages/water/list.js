@@ -79,20 +79,10 @@ class ListPage extends React.Component {
         <CardHeader
           title={item.groupdate}
           subtitle={
-            <Table>
-              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                <TableRow>
-                  <TableHeaderColumn>入量(ml)</TableHeaderColumn>
-                  <TableHeaderColumn>出量(ml)</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                <TableRow>
-                  <TableRowColumn style={inStyle}>{item.groupinamount}</TableRowColumn>
-                  <TableRowColumn style={outStyle}>{item.groupoutamount}</TableRowColumn>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <div>
+              <div><span>入量(ml)</span> <span style={inStyle}>{item.groupinamount}</span></div>
+              <div><span>出量(ml)</span> <span style={outStyle}>{item.groupoutamount}</span></div>
+            </div>
           }
           actAsExpander={true}
           showExpandableButton={true}
@@ -119,7 +109,7 @@ class ListPage extends React.Component {
     return (
       <TableRow key={idx}>
         <TableRowColumn>
-          {item.type === 'in' ? '入' : '出'}-<span style={item.type === 'in' ? inStyle : outStyle}>{item.amount}</span>
+          {item.type === 'in' ? '入' : '出'} <span style={item.type === 'in' ? inStyle : outStyle}>{item.amount}</span>
         </TableRowColumn>
         <TableRowColumn>{item.date}</TableRowColumn>
         <TableRowColumn>
@@ -147,7 +137,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(Object.assign(actions, commonActions), dispatch)
-}
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListPage)
