@@ -5,8 +5,12 @@ const initialState = {
 
     addPending: false,
     addError: null,
+
     listPending: false,
     listError: null,
+
+    delPending: false,
+    delError: null,
   }
 };
 

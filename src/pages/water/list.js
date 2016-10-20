@@ -6,6 +6,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import IconButton from 'material-ui/IconButton';
 import LinearProgress from 'material-ui/LinearProgress';
+import Snackbar from 'material-ui/Snackbar';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -34,12 +35,22 @@ class ListPage extends React.Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    if (props.needReloadList && !props.listPending) {
+      this.props.actions.fetchList();
+    }
+  }
+
   openAdd = () => {
     this.context.router.push('/app/water/add')
   }
 
+  handleDelete = item => {
+    this.props.actions.deleteData(item);
+  }
+
   render() {
-    const { listData, listPending, listError, needReloadList } = this.props
+    const { listData, listPending, listError, delPending, delError, needReloadList } = this.props
 
     return (
       <div>
@@ -48,22 +59,22 @@ class ListPage extends React.Component {
             <ContentAdd />
           </FloatingActionButton>
         </div>
-        {listPending && <div>
+        {listPending &&
           <Card>
             <CardHeader title="加载中..." subtitle={<LinearProgress mode="indeterminate" />} />
           </Card>
-        </div>}
-        {listError && <div>
+        }
+        {listError && <Snackbar open={true} message={<div>获取失败:{listError.message || listError.toString()}</div>} autoHideDuration={3000} />}
+        {delPending &&
           <Card>
-            <CardHeader title="获取失败" subtitle={listError.message || listError.toString()} />
+            <CardHeader title="操作中..." subtitle={<LinearProgress mode="indeterminate" />} />
           </Card>
-        </div>}
+        }
+        {delError && <Snackbar open={true} message={<div>删除失败:{delError.message || delError.toString()}</div>} autoHideDuration={3000} />}
         {!listPending && !listError && (!listData || listData.length < 1) ?
-          (<div>
-            <Card>
-              <CardHeader title="无数据" />
-            </Card>
-          </div>)
+          <Card>
+            <CardHeader title="无数据" />
+          </Card>
           :
           <div>
             {listData.map(this.renderCard)}
@@ -113,7 +124,7 @@ class ListPage extends React.Component {
         </TableRowColumn>
         <TableRowColumn>{item.date}</TableRowColumn>
         <TableRowColumn>
-          <IconButton iconClassName="fa fa-trash-o" iconStyle={{ 'fontSize': '16px' }} />
+          <IconButton iconClassName="fa fa-trash-o" iconStyle={{ 'fontSize': '16px' }} onClick={() => this.handleDelete(item)} />
         </TableRowColumn>
       </TableRow>
     )
@@ -125,12 +136,14 @@ ListPage.contextTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const {listData, listPending, listError, needReloadList } = state.waterReducer.water;
+  const {listData, listPending, listError, delPending, delError, needReloadList } = state.waterReducer.water;
   return {
     listData,
     listPending,
     listError,
     needReloadList,
+    delPending,
+    delError,
   }
 }
 
