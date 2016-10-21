@@ -1,3 +1,5 @@
+import update from 'react/lib/update'
+
 export const changeHeader = headerTitle => {
   return {
     type: 'CHANGE_HEADER_TITLE',
@@ -29,21 +31,18 @@ export const commonActions = {
 export function reducer(state = { headerTitle: '', selectedIndex: 0 }, action) {
   switch (action.type) {
     case 'CHANGE_HEADER_TITLE':
-      return {
-        ...state,
-        headerTitle: action.headerTitle,
-      };
+      return update(state, {
+        headerTitle: { $set: action.headerTitle }
+      })
     case 'CHANGE_FOOTER_INDEX':
-      return {
-        ...state,
-        selectedIndex: action.selectedIndex,
-      };
+      return update(state, {
+        selectedIndex: { $set: action.selectedIndex }
+      });
     case 'CHANGE_HEADER_AND_FOOTER':
-      return {
-        ...state,
-        headerTitle: action.headerTitle,
-        selectedIndex: action.selectedIndex,
-      };
+      return update(state, {
+        headerTitle: { $set: action.headerTitle },
+        selectedIndex: { $set: action.selectedIndex },
+      });
     default:
       return state;
   }

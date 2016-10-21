@@ -86,7 +86,7 @@ class ListPage extends React.Component {
 
   renderCard = (item, idx) => {
     return (
-      <Card key={idx}>
+      <Card key={idx} initiallyExpanded={true}>
         <CardHeader title={item.groupdate} actAsExpander={true} showExpandableButton={true} />
         <CardText expandable={true}>
           <Table>
