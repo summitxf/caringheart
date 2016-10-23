@@ -31,7 +31,15 @@ class AddPage extends React.Component {
   };
 
   handleSubmit = () => {
-    if (this.state && this.state.low && this.state.high && this.state.heartbeat && this.state.weight) {
+    if (!this.state || !this.state.low) {
+      this.refs.low.input.focus();
+    } else if (!this.state.high) {
+      this.refs.high.input.focus();
+    } else if (!this.state.heartbeat) {
+      this.refs.heartbeat.input.focus();
+    } else if (!this.state.weight) {
+      this.refs.weight.input.focus();
+    } else {
       this.props.actions.add({
         low: this.state.low,
         high: this.state.high,
@@ -46,13 +54,13 @@ class AddPage extends React.Component {
 
     return (
       <div>
-        <TextField hintText="80" id="low" type="number" floatingLabelText="低压(mmHg)舒张压" fullWidth={true} onChange={this.handleChange} />
+        <TextField hintText="80" id="low" ref="low" type="number" floatingLabelText="低压(mmHg)舒张压" fullWidth={true} onChange={this.handleChange} />
         <br />
-        <TextField hintText="120" id="high" type="number" floatingLabelText="高压(mmHg)收缩压" fullWidth={true} onChange={this.handleChange} />
+        <TextField hintText="120" id="high" ref="high" type="number" floatingLabelText="高压(mmHg)收缩压" fullWidth={true} onChange={this.handleChange} />
         <br />
-        <TextField hintText="60" id="heartbeat" type="number" floatingLabelText="心率(bpm)" fullWidth={true} onChange={this.handleChange} />
+        <TextField hintText="60" id="heartbeat" ref="heartbeat" type="number" floatingLabelText="心率(bpm)" fullWidth={true} onChange={this.handleChange} />
         <br />
-        <TextField hintText="60" id="weight" type="number" floatingLabelText="体重(kg)" fullWidth={true} onChange={this.handleChange} />
+        <TextField hintText="60" id="weight" ref="weight" type="number" floatingLabelText="体重(kg)" fullWidth={true} onChange={this.handleChange} />
         <br />
         <RaisedButton label={pending ? '提交中...' : '提交'} disabled={pending} primary={true} fullWidth={true} onClick={this.handleSubmit} />
       </div>
