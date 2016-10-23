@@ -5,8 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import IconButton from 'material-ui/IconButton';
-import LinearProgress from 'material-ui/LinearProgress';
-import Snackbar from 'material-ui/Snackbar';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -36,9 +34,13 @@ class ListPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.needReloadList && !props.listPending) {
+    if (props.needReloadList && !props.pending) {
       this.props.actions.fetchList();
     }
+  }
+
+  componentWillUnmount() {
+    this.props.actions.dismissOptError();
   }
 
   openAdd = () => {
@@ -50,7 +52,7 @@ class ListPage extends React.Component {
   }
 
   render() {
-    const { listData, listPending, listError, delPending, delError, needReloadList } = this.props
+    const { listData, pending, optError, needReloadList } = this.props
 
     return (
       <div>
@@ -59,19 +61,7 @@ class ListPage extends React.Component {
             <ContentAdd />
           </FloatingActionButton>
         </div>
-        {listPending &&
-          <Card>
-            <CardHeader title="加载中..." subtitle={<LinearProgress mode="indeterminate" />} />
-          </Card>
-        }
-        {listError && <Snackbar open={true} message={<div>获取失败:{listError.message || listError.toString()}</div>} autoHideDuration={3000} />}
-        {delPending &&
-          <Card>
-            <CardHeader title="操作中..." subtitle={<LinearProgress mode="indeterminate" />} />
-          </Card>
-        }
-        {delError && <Snackbar open={true} message={<div>删除失败:{delError.message || delError.toString()}</div>} autoHideDuration={3000} />}
-        {!listPending && !listError && (!listData || listData.length < 1) ?
+        {!pending && !optError && (!listData || listData.length < 1) ?
           <Card>
             <CardHeader title="无数据" />
           </Card>
@@ -130,14 +120,13 @@ ListPage.contextTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const {listData, listPending, listError, delPending, delError, needReloadList } = state.heartReducer.heart;
+  const { pending, optError } = state.commonReducer;
+  const {listData, needReloadList } = state.heartReducer.heart;
   return {
+    pending,
+    optError,
     listData,
-    listPending,
-    listError,
     needReloadList,
-    delPending,
-    delError,
   }
 }
 

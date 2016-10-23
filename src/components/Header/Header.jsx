@@ -1,9 +1,6 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 const style = {
   width: "100%",
   left: 0,
@@ -15,7 +12,6 @@ const style = {
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { headerTitle: '' };
   }
 
   render() {
@@ -27,11 +23,4 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { headerTitle } = state.commonReducer;
-  return {
-    headerTitle
-  }
-}
-
-export default connect(mapStateToProps)(Header)
+export default Header

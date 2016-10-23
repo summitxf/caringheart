@@ -18,6 +18,10 @@ class AddPage extends React.Component {
     this.props.actions.changeHeaderAndFooter('血压体重', 1);
   }
 
+  componentWillUnmount() {
+    this.props.actions.dismissOptError();
+  }
+
   handleChange = (event) => {
     let key = event.target.id;
     let value = event.target.value;
@@ -27,16 +31,18 @@ class AddPage extends React.Component {
   };
 
   handleSubmit = () => {
-    this.props.actions.add({
-      low: this.state.low,
-      high: this.state.high,
-      heartbeat: this.state.heartbeat,
-      weight: this.state.weight,
-    })
+    if (this.state && this.state.low && this.state.high && this.state.heartbeat && this.state.weight) {
+      this.props.actions.add({
+        low: this.state.low,
+        high: this.state.high,
+        heartbeat: this.state.heartbeat,
+        weight: this.state.weight,
+      })
+    }
   };
 
   render() {
-    const { addPending, addError } = this.props
+    const { pending } = this.props
 
     return (
       <div>
@@ -48,19 +54,16 @@ class AddPage extends React.Component {
         <br />
         <TextField hintText="60" id="weight" type="number" floatingLabelText="体重(kg)" fullWidth={true} onChange={this.handleChange} />
         <br />
-        <RaisedButton label={addPending ? '提交中...' : '提交'} primary={true} fullWidth={true} onClick={this.handleSubmit} />
-        <br />
-        {addError && <div className="error-tip">Save topic failed: {addError.message || addError.toString()}</div>}
+        <RaisedButton label={pending ? '提交中...' : '提交'} disabled={pending} primary={true} fullWidth={true} onClick={this.handleSubmit} />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { addPending, addError } = state.heartReducer.heart;
+  const { pending } = state.commonReducer;
   return {
-    addPending,
-    addError,
+    pending,
   }
 }
 

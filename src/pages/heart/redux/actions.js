@@ -1,12 +1,9 @@
-import { add, dismissAddError } from './add';
-import { fetchList, dismissfetchListError } from './list';
-import { deleteData, dismissDelError } from './delete';
+import { add } from './add';
+import { fetchList } from './list';
+import { deleteData } from './delete';
 
 export {
   add,
-  dismissAddError,
   fetchList,
-  dismissfetchListError,
   deleteData,
-  dismissDelError,
 };

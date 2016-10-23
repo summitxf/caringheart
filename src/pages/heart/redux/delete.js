@@ -4,7 +4,7 @@ import update from 'react/lib/update'
 export const deleteData = data => {
   return dispatch => {
     dispatch({
-      type: 'HEART_DEL_BEGIN',
+      type: 'OPT_BEGIN',
     });
 
     return fetch('/static/data/heartlist.json', {
@@ -21,10 +21,13 @@ export const deleteData = data => {
           type: 'HEART_DEL_SUCCESS',
           data: {},
         });
+        dispatch({
+          type: 'OPT_SUCCESS',
+        });
       }, )
       .catch(error => {
         dispatch({
-          type: 'HEART_DEL_FAILURE',
+          type: 'OPT_FAILURE',
           error,
         });
       });
@@ -32,42 +35,14 @@ export const deleteData = data => {
   }
 }
 
-export const dismissDelError = () => {
-  return {
-    type: 'HEART_DEL_DISMISS_ERROR',
-  };
-}
-
 export function reducer(state, action) {
   switch (action.type) {
-    case 'HEART_DEL_BEGIN':
-      return update(state, {
-        heart: {
-          delPending: { $set: true }
-        }
-      });
 
     case 'HEART_DEL_SUCCESS':
       return update(state, {
         heart: {
           needReloadList: { $set: true },
-          delPending: { $set: false }
-        }
-      });
-
-    case 'HEART_DEL_FAILURE':
-      return update(state, {
-        heart: {
-          delPending: { $set: false },
-          delError: { $set: action.error }
-        }
-      });
-
-    case 'HEART_DEL_DISMISS_ERROR':
-      return update(state, {
-        heart: {
-          delError: { $set: null }
-        }
+        },
       });
 
     default:

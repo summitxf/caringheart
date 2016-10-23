@@ -38,6 +38,10 @@ class AddPage extends React.Component {
     this.props.actions.changeHeaderAndFooter('出入量', 0);
   }
 
+  componentWillUnmount() {
+    this.props.actions.dismissOptError();
+  }
+
   handleTypeChange = (event, index, value) => {
     this.setState({ type: value })
   };
@@ -54,7 +58,7 @@ class AddPage extends React.Component {
   };
 
   render() {
-    const { addPending, addError } = this.props
+    const { pending } = this.props
 
     return (
       <div>
@@ -66,19 +70,16 @@ class AddPage extends React.Component {
           {amountItems}
         </SelectField>
         <br />
-        <RaisedButton label={addPending ? '提交中...' : '提交'} primary={true} fullWidth={true} onClick={this.handleSubmit} />
-        <br />
-        {addError && <div className="error-tip">Save topic failed: {addError.message || addError.toString()}</div>}
+        <RaisedButton label={pending ? '提交中...' : '提交'} disabled={pending} primary={true} fullWidth={true} onClick={this.handleSubmit} />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { addPending, addError } = state.waterReducer.water;
+  const { pending } = state.commonReducer;
   return {
-    addPending,
-    addError,
+    pending,
   }
 }
 

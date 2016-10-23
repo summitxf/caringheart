@@ -5,9 +5,6 @@ import { blue500, red500, greenA200 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 const style = {
   width: "100%",
   left: 0,
@@ -49,11 +46,4 @@ Footer.contextTypes = {
   router: React.PropTypes.object
 }
 
-const mapStateToProps = (state) => {
-  const { selectedIndex } = state.commonReducer;
-  return {
-    selectedIndex
-  }
-}
-
-export default connect(mapStateToProps)(Footer)
+export default Footer

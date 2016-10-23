@@ -4,7 +4,7 @@ import update from 'react/lib/update'
 export const deleteData = data => {
   return dispatch => {
     dispatch({
-      type: 'WATER_DEL_BEGIN',
+      type: 'OPT_BEGIN',
     });
 
     return fetch('/static/data/waterlist.json', {
@@ -21,10 +21,13 @@ export const deleteData = data => {
           type: 'WATER_DEL_SUCCESS',
           data: {},
         });
+        dispatch({
+          type: 'OPT_SUCCESS',
+        });
       }, )
       .catch(error => {
         dispatch({
-          type: 'WATER_DEL_FAILURE',
+          type: 'OPT_FAILURE',
           error,
         });
       });
@@ -32,42 +35,14 @@ export const deleteData = data => {
   }
 }
 
-export const dismissDelError = () => {
-  return {
-    type: 'WATER_DEL_DISMISS_ERROR',
-  };
-}
-
 export function reducer(state, action) {
   switch (action.type) {
-    case 'WATER_DEL_BEGIN':
-      return update(state, {
-        water: {
-          delPending: { $set: true }
-        }
-      });
 
     case 'WATER_DEL_SUCCESS':
       return update(state, {
         water: {
           needReloadList: { $set: true },
-          delPending: { $set: false }
-        }
-      });
-
-    case 'WATER_DEL_FAILURE':
-      return update(state, {
-        water: {
-          delPending: { $set: false },
-          delError: { $set: action.error }
-        }
-      });
-
-    case 'WATER_DEL_DISMISS_ERROR':
-      return update(state, {
-        water: {
-          delError: { $set: null }
-        }
+        },
       });
 
     default:

@@ -22,13 +22,27 @@ export const changeHeaderAndFooter = (headerTitle, selectedIndex) => {
   }
 }
 
+export const dismissOptError = () => {
+  return {
+    type: 'DISMISS_OPT_ERROR',
+  };
+}
+
 export const commonActions = {
   changeHeader,
   changeFooter,
-  changeHeaderAndFooter
+  changeHeaderAndFooter,
+  dismissOptError,
 }
 
-export function reducer(state = { headerTitle: '', selectedIndex: 0 }, action) {
+const initialState = {
+  headerTitle: '',
+  selectedIndex: 0,
+  pending: false,
+  optError: null,
+};
+
+export function reducer(state = initialState, action) {
   switch (action.type) {
     case 'CHANGE_HEADER_TITLE':
       return update(state, {
@@ -42,6 +56,25 @@ export function reducer(state = { headerTitle: '', selectedIndex: 0 }, action) {
       return update(state, {
         headerTitle: { $set: action.headerTitle },
         selectedIndex: { $set: action.selectedIndex },
+      });
+
+    case 'OPT_BEGIN':
+      return update(state, {
+        pending: { $set: true },
+      });
+    case 'OPT_SUCCESS':
+      return update(state, {
+        pending: { $set: false },
+      });
+    case 'OPT_FAILURE':
+      return update(state, {
+        pending: { $set: false },
+        optError: { $set: action.error },
+      });
+
+    case 'DISMISS_OPT_ERROR':
+      return update(state, {
+        optError: { $set: null }
       });
     default:
       return state;

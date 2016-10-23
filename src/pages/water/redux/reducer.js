@@ -19,3 +19,4 @@ export default function reducer(state = initialState, action) {
   }
   return reducers.reduce((s, r) => r(s, action), newState);
 }
+
