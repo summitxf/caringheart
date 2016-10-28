@@ -7,7 +7,7 @@ export const add = data => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/static/data/waterlist.json', {
+    return fetch('/backend/water', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

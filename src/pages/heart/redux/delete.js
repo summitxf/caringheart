@@ -7,7 +7,7 @@ export const deleteData = data => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/static/data/heartlist.json', {
+    return fetch('/backend/heart', {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',

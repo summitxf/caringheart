@@ -7,7 +7,7 @@ export const add = data => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/static/data/heartlist.json', {
+    return fetch('/backend/heart', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

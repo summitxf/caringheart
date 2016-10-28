@@ -38,6 +38,12 @@ class AddPage extends React.Component {
     this.props.actions.changeHeaderAndFooter('出入量', 0);
   }
 
+  componentWillReceiveProps(props) {
+    if (this.props.needReloadList) {
+      this.context.router.push('/app/water')
+    }
+  }
+
   componentWillUnmount() {
     this.props.actions.dismissOptError();
   }
@@ -54,11 +60,12 @@ class AddPage extends React.Component {
     this.props.actions.add({
       type: this.state.type,
       amount: this.state.amount,
+      date: new Date(),
     })
   };
 
   render() {
-    const { pending } = this.props
+    const { pending, needReloadList } = this.props
 
     return (
       <div>
@@ -76,10 +83,15 @@ class AddPage extends React.Component {
   }
 }
 
+AddPage.contextTypes = {
+  router: React.PropTypes.object
+}
+
 const mapStateToProps = (state) => {
   const { pending } = state.commonReducer;
+  const { needReloadList } = state.waterReducer.water;
   return {
-    pending,
+    pending, needReloadList
   }
 }
 

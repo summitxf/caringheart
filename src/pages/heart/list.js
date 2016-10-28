@@ -34,7 +34,7 @@ class ListPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.needReloadList && !props.pending) {
+    if (this.props.needReloadList) {
       this.props.actions.fetchList();
     }
   }
@@ -106,7 +106,7 @@ class ListPage extends React.Component {
         </TableRowColumn>
         <TableRowColumn>{item.heartbeat}</TableRowColumn>
         <TableRowColumn>{item.weight}</TableRowColumn>
-        <TableRowColumn>{item.date}</TableRowColumn>
+        <TableRowColumn>{item.date.substring(11, 19)}</TableRowColumn>
         <TableRowColumn>
           <IconButton iconClassName="fa fa-trash-o" iconStyle={{ 'fontSize': '16px' }} onClick={() => this.handleDelete(item)} />
         </TableRowColumn>

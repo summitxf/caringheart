@@ -36,7 +36,7 @@ class ListPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.needReloadList && !props.pending) {
+    if (this.props.needReloadList) {
       this.props.actions.fetchList();
     }
   }
@@ -114,7 +114,7 @@ class ListPage extends React.Component {
         <TableRowColumn>
           {item.type === 'in' ? '入' : '出'} <span style={item.type === 'in' ? inStyle : outStyle}>{item.amount}</span>
         </TableRowColumn>
-        <TableRowColumn>{item.date}</TableRowColumn>
+        <TableRowColumn>{item.date.substring(11, 19)}</TableRowColumn>
         <TableRowColumn>
           <IconButton iconClassName="fa fa-trash-o" iconStyle={{ 'fontSize': '16px' }} onClick={() => this.handleDelete(item)} />
         </TableRowColumn>

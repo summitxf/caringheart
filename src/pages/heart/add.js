@@ -18,6 +18,12 @@ class AddPage extends React.Component {
     this.props.actions.changeHeaderAndFooter('血压体重', 1);
   }
 
+  componentWillReceiveProps(props) {
+    if (this.props.needReloadList) {
+      this.context.router.push('/app/heart')
+    }
+  }
+
   componentWillUnmount() {
     this.props.actions.dismissOptError();
   }
@@ -45,6 +51,7 @@ class AddPage extends React.Component {
         high: this.state.high,
         heartbeat: this.state.heartbeat,
         weight: this.state.weight,
+        date: new Date(),
       })
     }
   };
@@ -68,10 +75,15 @@ class AddPage extends React.Component {
   }
 }
 
+AddPage.contextTypes = {
+  router: React.PropTypes.object
+}
+
 const mapStateToProps = (state) => {
   const { pending } = state.commonReducer;
+  const { needReloadList } = state.waterReducer.water;
   return {
-    pending,
+    pending, needReloadList
   }
 }
 

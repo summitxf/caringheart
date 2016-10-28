@@ -8,7 +8,7 @@ export const fetchList = () => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/static/data/waterlist.json')
+    return fetch('/backend/water/7')
       .then(response => response.json())
       .then(data => {
         dispatch({

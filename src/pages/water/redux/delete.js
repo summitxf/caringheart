@@ -7,7 +7,7 @@ export const deleteData = data => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/static/data/waterlist.json', {
+    return fetch('/backend/water', {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
