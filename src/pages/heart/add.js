@@ -19,7 +19,7 @@ class AddPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (this.props.needReloadList) {
+    if (props.needReloadList) {
       this.context.router.push('/app/heart')
     }
   }

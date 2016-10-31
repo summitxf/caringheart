@@ -30,13 +30,13 @@ class ListPage extends React.Component {
 
   componentDidMount() {
     this.props.actions.changeHeaderAndFooter('出入量', 0);
-    if (this.props.needReloadList) {
+    if (this.props.needReloadList && !this.props.pending) {
       this.props.actions.fetchList();
     }
   }
 
   componentWillReceiveProps(props) {
-    if (this.props.needReloadList) {
+    if (props.needReloadList && !props.pending) {
       this.props.actions.fetchList();
     }
   }
