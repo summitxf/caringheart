@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import update from 'react/lib/update'
+import { fetchList } from './list';
 
 export const add = data => {
   return dispatch => {
@@ -21,6 +22,7 @@ export const add = data => {
           type: 'HEART_ADD_SUCCESS',
           data: {},
         });
+        dispatch(fetchList());
         dispatch({
           type: 'OPT_SUCCESS',
         });

@@ -47,10 +47,10 @@ class AddPage extends React.Component {
       this.refs.weight.input.focus();
     } else {
       this.props.actions.add({
-        low: this.state.low,
-        high: this.state.high,
-        heartbeat: this.state.heartbeat,
-        weight: this.state.weight,
+        low: Number(this.state.low),
+        high: Number(this.state.high),
+        heartbeat: Number(this.state.heartbeat),
+        weight: Number(this.state.weight),
         date: new Date(),
       })
     }

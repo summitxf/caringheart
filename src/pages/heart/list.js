@@ -33,12 +33,6 @@ class ListPage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    if (props.needReloadList && !props.pending) {
-      this.props.actions.fetchList();
-    }
-  }
-
   componentWillUnmount() {
     this.props.actions.dismissOptError();
   }
@@ -77,7 +71,7 @@ class ListPage extends React.Component {
   renderCard = (item, idx) => {
     return (
       <Card key={idx} initiallyExpanded={true}>
-        <CardHeader title={item.groupdate} actAsExpander={true} showExpandableButton={true} />
+        <CardHeader title={item.groupdate.substring(0, 10)} actAsExpander={true} showExpandableButton={true} />
         <CardText expandable={true}>
           <Table>
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>

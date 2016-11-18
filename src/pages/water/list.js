@@ -35,12 +35,6 @@ class ListPage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    if (props.needReloadList && !props.pending) {
-      this.props.actions.fetchList();
-    }
-  }
-
   componentWillUnmount() {
     this.props.actions.dismissOptError();
   }

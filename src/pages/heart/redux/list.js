@@ -8,7 +8,7 @@ export const fetchList = () => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/backend/heart/7')
+    return fetch('/backend/heart/30')
       .then(response => response.json())
       .then(data => {
         dispatch({

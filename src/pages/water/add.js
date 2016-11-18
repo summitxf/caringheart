@@ -59,7 +59,7 @@ class AddPage extends React.Component {
   handleSubmit = () => {
     this.props.actions.add({
       type: this.state.type,
-      amount: this.state.amount,
+      amount: Number(this.state.amount),
       date: new Date(),
     })
   };
