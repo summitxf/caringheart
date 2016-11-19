@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-fetch'
 import update from 'react/lib/update'
-import { fetchList } from './list';
 
 export const deleteData = data => {
   return dispatch => {
@@ -22,7 +21,6 @@ export const deleteData = data => {
           type: 'HEART_DEL_SUCCESS',
           data: {},
         });
-        dispatch(fetchList());
         dispatch({
           type: 'OPT_SUCCESS',
         });

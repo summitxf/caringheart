@@ -38,8 +38,8 @@ class AddPage extends React.Component {
     this.props.actions.changeHeaderAndFooter('出入量', 0);
   }
 
-  componentWillReceiveProps(props) {
-    if (props.needReloadList) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.needReloadList) {
       this.context.router.push('/app/water')
     }
   }

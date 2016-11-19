@@ -21,6 +21,9 @@ export const fetchList = () => {
       })
       .catch(error => {
         dispatch({
+          type: 'FETCH_HEART_LIST_FAIL'
+        });
+        dispatch({
           type: 'OPT_FAILURE',
           error
         });
@@ -36,6 +39,12 @@ export function reducer(state, action) {
         heart: {
           needReloadList: { $set: false },
           listData: { $set: action.data },
+        },
+      });
+    case 'FETCH_HEART_LIST_FAIL':
+      return update(state, {
+        heart: {
+          needReloadList: { $set: false }
         },
       });
 

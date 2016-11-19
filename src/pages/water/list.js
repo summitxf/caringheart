@@ -35,6 +35,12 @@ class ListPage extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.needReloadList && !nextProps.pending) {
+      this.props.actions.fetchList();
+    }
+  }
+
   componentWillUnmount() {
     this.props.actions.dismissOptError();
   }
@@ -57,11 +63,12 @@ class ListPage extends React.Component {
             <ContentAdd />
           </FloatingActionButton>
         </div>
-        {!pending && !optError && (!listData || listData.length < 1) ?
+        {(!pending && !optError && (!listData || listData.length < 1)) &&
           <Card>
             <CardHeader title="无数据" />
           </Card>
-          :
+        }
+        {(!pending && !optError && (listData && listData.length > 0)) &&
           <div>
             {listData.map(this.renderCard)}
           </div>
@@ -74,7 +81,7 @@ class ListPage extends React.Component {
     return (
       <Card key={idx}>
         <CardHeader
-          title={item.groupdate}
+          title={item.groupdate.substring(0, 10)}
           subtitle={
             <div>
               <div><span>入量(ml)</span> <span style={inStyle}>{item.groupinamount}</span></div>

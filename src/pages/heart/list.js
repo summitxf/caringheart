@@ -33,6 +33,12 @@ class ListPage extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.needReloadList && !nextProps.pending) {
+      this.props.actions.fetchList();
+    }
+  }
+
   componentWillUnmount() {
     this.props.actions.dismissOptError();
   }
@@ -55,11 +61,12 @@ class ListPage extends React.Component {
             <ContentAdd />
           </FloatingActionButton>
         </div>
-        {!pending && !optError && (!listData || listData.length < 1) ?
+        {!pending && !optError && (!listData || listData.length < 1) &&
           <Card>
             <CardHeader title="无数据" />
           </Card>
-          :
+        }
+        {(!pending && !optError && (listData && listData.length > 0)) &&
           <div>
             {listData.map(this.renderCard)}
           </div>

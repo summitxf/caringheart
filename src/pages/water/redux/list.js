@@ -8,7 +8,7 @@ export const fetchList = () => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/backend/water/7')
+    return fetch('/backend/water/30')
       .then(response => response.json())
       .then(data => {
         dispatch({
@@ -21,6 +21,9 @@ export const fetchList = () => {
         });
       })
       .catch(error => {
+        dispatch({
+          type: 'FETCH_WATER_LIST_FAIL'
+        });
         dispatch({
           type: 'OPT_FAILURE',
           error
@@ -39,7 +42,12 @@ export function reducer(state, action) {
           listData: { $set: action.data },
         },
       });
-
+    case 'FETCH_WATER_LIST_FAIL':
+      return update(state, {
+        water: {
+          needReloadList: { $set: false }
+        }
+      });
     default:
       return state;
   }

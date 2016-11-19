@@ -18,8 +18,8 @@ class AddPage extends React.Component {
     this.props.actions.changeHeaderAndFooter('血压体重', 1);
   }
 
-  componentWillReceiveProps(props) {
-    if (props.needReloadList) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.needReloadList) {
       this.context.router.push('/app/heart')
     }
   }
@@ -81,7 +81,7 @@ AddPage.contextTypes = {
 
 const mapStateToProps = (state) => {
   const { pending } = state.commonReducer;
-  const { needReloadList } = state.waterReducer.water;
+  const { needReloadList } = state.heartReducer.heart;
   return {
     pending, needReloadList
   }
