@@ -56,8 +56,11 @@ class App extends React.Component {
           {pending &&
             <div style={style.refresh}>
               <LinearProgress mode="indeterminate" color="#FF9800" />
-            </div>}
-          {optError && <Snackbar open={true} message={<div>操作失败:{optError.message || optError.toString()}</div>} autoHideDuration={3000} />}
+            </div>
+          }
+          {optError &&
+            <Snackbar open={true} message={<div>操作失败:{optError.message || optError.toString()}</div>} autoHideDuration={3000} />
+          }
 
           <Footer selectedIndex={selectedIndex} />
 

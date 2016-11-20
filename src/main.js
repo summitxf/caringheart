@@ -9,11 +9,10 @@ import configureStore from './store/store'
 
 import App from './App';
 import WelcomePage from './pages/welcome/WelcomePage';
-
-import { WaterMainPage, WaterListPage, WaterAddPage } from './pages/water';
+import { LoginPage, LogoutPage } from './pages/auth';
 import { HeartMainPage, HeartListPage, HeartAddPage } from './pages/heart';
-
-import MePage from './pages/me/MePage';
+import { WaterMainPage, WaterListPage, WaterAddPage } from './pages/water';
+import { MeMainPage, MePage, MeSettingPage } from './pages/me';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -26,6 +25,9 @@ ReactDOM.render(
   <Provider store={store}>
     { /* Tell the Router to use our enhanced history */}
     <Router history={history}>
+      <Route path="/" component={WelcomePage} />
+      <Route path="/login" component={LoginPage} />
+      <Route path="/logout" component={LogoutPage} />
       <Route path="/app" component={App}>
         <IndexRedirect to="/app/water" />
         <Route path="water" component={WaterMainPage}>
@@ -36,9 +38,11 @@ ReactDOM.render(
           <IndexRoute component={HeartListPage} />
           <Route path="add" component={HeartAddPage} />
         </Route>
-        <Route path="me" component={MePage} />
+        <Route path="me" component={MeMainPage} >
+          <IndexRoute component={MePage} />
+          <Route path="setting" component={MeSettingPage} />
+        </Route>
       </Route>
-      <Route path="/" component={WelcomePage} />
     </Router>
   </Provider>,
   document.getElementById('root')

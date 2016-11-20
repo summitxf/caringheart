@@ -35,7 +35,7 @@ class Footer extends React.Component {
         <BottomNavigation selectedIndex={selectedIndex}>
           <BottomNavigationItem label="出入量" icon={waterIcon} onTouchTap={() => this.select('/app/water')} />
           <BottomNavigationItem label="血压体重" icon={heartIcon} onTouchTap={() => this.select('/app/heart')} />
-          {/*<BottomNavigationItem label="我" icon={meIcon} onTouchTap={() => this.select('/app/me')} />*/}
+          <BottomNavigationItem label="我" icon={meIcon} onTouchTap={() => this.select('/app/me')} />
         </BottomNavigation>
       </Paper>
     );
