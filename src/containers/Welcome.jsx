@@ -1,5 +1,14 @@
 import React from 'react';
 
+import Paper from 'material-ui/Paper';
+
+const style = {
+  height: "100%",
+  width: "100%",
+  textAlign: 'center',
+  display: 'inline-block',
+};
+
 class WelcomePage extends React.Component {
 
   constructor(props, context) {
@@ -24,9 +33,11 @@ class WelcomePage extends React.Component {
     const { code } = this.state
 
     return (
-      <div>
-        {code ? <h1>Welcome : {code}</h1> : <h1>Welcome !</h1>}
-      </div>
+      <Paper style={style} zDepth={1} >
+        <div>
+          {code ? <h1>Welcome : {code}</h1> : <h1>Welcome !</h1>}
+        </div>
+      </Paper>
     );
   }
 }

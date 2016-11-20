@@ -9,7 +9,7 @@ import configureStore from './store/store'
 
 import App from './containers/App';
 import Auth from './containers/Auth';
-import WelcomePage from './pages/welcome/WelcomePage';
+import Welcome from './containers/Welcome';
 import { LoginPage } from './pages/auth';
 import { HeartListPage, HeartAddPage } from './pages/heart';
 import { WaterListPage, WaterAddPage } from './pages/water';
@@ -40,7 +40,7 @@ ReactDOM.render(
     <Provider store={store}>
       { /* Tell the Router to use our enhanced history */}
       <Router history={history}>
-        <Route path="/" component={WelcomePage} />
+        <Route path="/" component={Welcome} />
 
         <Route path="/auth" component={Auth}>
           <IndexRedirect to="/auth/login" />
