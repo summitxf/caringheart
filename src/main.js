@@ -7,9 +7,10 @@ import { syncHistoryWithStore } from 'react-router-redux'
 
 import configureStore from './store/store'
 
-import App from './App';
+import App from './containers/App';
+import Auth from './containers/Auth';
 import WelcomePage from './pages/welcome/WelcomePage';
-import { LoginPage, LogoutPage } from './pages/auth';
+import { LoginPage } from './pages/auth';
 import { HeartMainPage, HeartListPage, HeartAddPage } from './pages/heart';
 import { WaterMainPage, WaterListPage, WaterAddPage } from './pages/water';
 import { MeMainPage, MePage, MeSettingPage } from './pages/me';
@@ -21,29 +22,46 @@ const store = configureStore()
 
 const history = syncHistoryWithStore(browserHistory, store)
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { green300, green700, green100 } from 'material-ui/styles/colors';
+
+const muiTheme = getMuiTheme({
+  fontFamily: '微软雅黑, Helvetica',
+  palette: {
+    primary1Color: green300,
+    primary2Color: green700,
+    primary3Color: green100,
+  }
+});
+
 ReactDOM.render(
-  <Provider store={store}>
-    { /* Tell the Router to use our enhanced history */}
-    <Router history={history}>
-      <Route path="/" component={WelcomePage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/logout" component={LogoutPage} />
-      <Route path="/app" component={App}>
-        <IndexRedirect to="/app/water" />
-        <Route path="water" component={WaterMainPage}>
-          <IndexRoute component={WaterListPage} />
-          <Route path="add" component={WaterAddPage} />
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <Provider store={store}>
+      { /* Tell the Router to use our enhanced history */}
+      <Router history={history}>
+        <Route path="/" component={WelcomePage} />
+        <Route path="/auth" component={Auth}>
+          <IndexRedirect to="/auth/login" />
+          <Route path="login" component={LoginPage} />
         </Route>
-        <Route path="heart" component={HeartMainPage}>
-          <IndexRoute component={HeartListPage} />
-          <Route path="add" component={HeartAddPage} />
+        <Route path="/app" component={App}>
+          <IndexRedirect to="/app/water" />
+          <Route path="water" component={WaterMainPage}>
+            <IndexRoute component={WaterListPage} />
+            <Route path="add" component={WaterAddPage} />
+          </Route>
+          <Route path="heart" component={HeartMainPage}>
+            <IndexRoute component={HeartListPage} />
+            <Route path="add" component={HeartAddPage} />
+          </Route>
+          <Route path="me" component={MeMainPage} >
+            <IndexRoute component={MePage} />
+            <Route path="setting" component={MeSettingPage} />
+          </Route>
         </Route>
-        <Route path="me" component={MeMainPage} >
-          <IndexRoute component={MePage} />
-          <Route path="setting" component={MeSettingPage} />
-        </Route>
-      </Route>
-    </Router>
-  </Provider>,
+      </Router>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('root')
 )
