@@ -11,9 +11,9 @@ import App from './containers/App';
 import Auth from './containers/Auth';
 import WelcomePage from './pages/welcome/WelcomePage';
 import { LoginPage } from './pages/auth';
-import { HeartMainPage, HeartListPage, HeartAddPage } from './pages/heart';
-import { WaterMainPage, WaterListPage, WaterAddPage } from './pages/water';
-import { MeMainPage, MePage, MeSettingPage } from './pages/me';
+import { HeartListPage, HeartAddPage } from './pages/heart';
+import { WaterListPage, WaterAddPage } from './pages/water';
+import { MePage, MeSettingPage } from './pages/me';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -41,21 +41,23 @@ ReactDOM.render(
       { /* Tell the Router to use our enhanced history */}
       <Router history={history}>
         <Route path="/" component={WelcomePage} />
+
         <Route path="/auth" component={Auth}>
           <IndexRedirect to="/auth/login" />
           <Route path="login" component={LoginPage} />
         </Route>
+
         <Route path="/app" component={App}>
           <IndexRedirect to="/app/water" />
-          <Route path="water" component={WaterMainPage}>
+          <Route path="water">
             <IndexRoute component={WaterListPage} />
             <Route path="add" component={WaterAddPage} />
           </Route>
-          <Route path="heart" component={HeartMainPage}>
+          <Route path="heart">
             <IndexRoute component={HeartListPage} />
             <Route path="add" component={HeartAddPage} />
           </Route>
-          <Route path="me" component={MeMainPage} >
+          <Route path="me">
             <IndexRoute component={MePage} />
             <Route path="setting" component={MeSettingPage} />
           </Route>
