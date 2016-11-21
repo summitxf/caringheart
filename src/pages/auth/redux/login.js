@@ -19,18 +19,17 @@ export const login = data => {
                     type: 'OPT_FAILURE',
                     error: { message: response.statusText },
                 });
-            } else {
-                response.json().then(data => {
-                    localStorage.setItem('userToken', data.token)
-                    dispatch({
-                        type: 'LOGIN_SUCCESS',
-                        data: data.token,
-                    });
-                    dispatch({
-                        type: 'OPT_SUCCESS',
-                    });
-                })
             }
+            return response.json();
+        }).then(data => {
+            localStorage.setItem('userToken', data.token)
+            dispatch({
+                type: 'LOGIN_SUCCESS',
+                data: data.token,
+            });
+            dispatch({
+                type: 'OPT_SUCCESS',
+            });
         }).catch(error => {
             dispatch({
                 type: 'OPT_FAILURE',

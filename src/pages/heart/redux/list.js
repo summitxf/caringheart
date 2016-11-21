@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-fetch'
 import update from 'react/lib/update'
 
+import { getHeader } from '../../../utils'
+
 export const fetchList = () => {
   return (dispatch) => {
 
@@ -8,34 +10,34 @@ export const fetchList = () => {
       type: 'OPT_BEGIN',
     });
 
-    return fetch('/backend/heart/30')
-      .then(response => {
-        if (!response.ok) {
-          dispatch({
-            type: 'OPT_FAILURE',
-            error: { message: response.statusText },
-          });
-        } else {
-          response.json().then(data => {
-            dispatch({
-              type: 'FETCH_HEART_LIST_SUCCESS',
-              data: data,
-            });
-            dispatch({
-              type: 'OPT_SUCCESS',
-            });
-          })
-        }
-      })
-      .catch(error => {
-        dispatch({
-          type: 'FETCH_HEART_LIST_FAIL'
-        });
+    return fetch('/backend/heart/30', {
+      method: 'GET',
+      headers: getHeader(true)
+    }).then(response => {
+      if (!response.ok) {
         dispatch({
           type: 'OPT_FAILURE',
-          error
+          error: { message: response.statusText },
         });
+      }
+      return response.json();
+    }).then(data => {
+      dispatch({
+        type: 'FETCH_HEART_LIST_SUCCESS',
+        data: data,
       });
+      dispatch({
+        type: 'OPT_SUCCESS',
+      });
+    }).catch(error => {
+      dispatch({
+        type: 'FETCH_HEART_LIST_FAIL'
+      });
+      dispatch({
+        type: 'OPT_FAILURE',
+        error
+      });
+    });
   };
 }
 

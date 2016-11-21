@@ -1,7 +1,7 @@
 export const getHeader = needAuth => {
   let token = localStorage.getItem('userToken') || null
-  if (needAuth && token) {
 
+  if (needAuth && token) {
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

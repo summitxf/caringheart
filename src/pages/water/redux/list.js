@@ -19,17 +19,16 @@ export const fetchList = () => {
                     type: 'OPT_FAILURE',
                     error: { message: response.statusText },
                 });
-            } else {
-                response.json().then(data => {
-                    dispatch({
-                        type: 'FETCH_WATER_LIST_SUCCESS',
-                        data: data,
-                    });
-                    dispatch({
-                        type: 'OPT_SUCCESS',
-                    });
-                })
             }
+            return response.json();
+        }).then(data => {
+            dispatch({
+                type: 'FETCH_WATER_LIST_SUCCESS',
+                data: data,
+            });
+            dispatch({
+                type: 'OPT_SUCCESS',
+            });
         }).catch(error => {
             dispatch({
                 type: 'FETCH_WATER_LIST_FAIL'

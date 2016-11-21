@@ -25,7 +25,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/backend': {
-        target: 'http://localhost:8080/caringheart-backend',
+        target: 'http://localhost:9998/caringheart-backend',
         changeOrigin: true,
         pathRewrite: {
           '^/backend': ''
