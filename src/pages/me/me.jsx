@@ -1,8 +1,10 @@
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions.js'
+import * as authActions from '../auth/redux/actions'
 import { commonActions } from '../../components/commonRedux'
 
 class MePage extends React.Component {
@@ -15,10 +17,16 @@ class MePage extends React.Component {
     this.props.actions.changeHeaderAndFooter('我', 2);
   }
 
+  logout = () => {
+    this.props.actions.logout().then(() => {
+      this.context.router.push('/')
+    })
+  }
+
   render() {
     return (
       <div>
-        <h1>Me</h1>
+        <RaisedButton label="Logout" secondary={true} fullWidth={true} onTouchTap={() => this.logout()} />
       </div>
     );
   }
@@ -30,18 +38,15 @@ MePage.contextTypes = {
 
 const mapStateToProps = (state) => {
   const { pending, optError } = state.commonReducer;
-  const {listData, needReloadList } = state.heartReducer.heart;
   return {
     pending,
     optError,
-    listData,
-    needReloadList,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(Object.assign(actions, commonActions), dispatch)
+    actions: bindActionCreators(Object.assign(actions, authActions, commonActions), dispatch)
   }
 }
 

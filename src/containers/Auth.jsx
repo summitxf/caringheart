@@ -14,7 +14,6 @@ const style = {
     overflow: "auto",
     position: "absolute",
     top: "66px",
-    bottom: "58px",
   },
   refresh: {
     width: "96%",
@@ -42,7 +41,7 @@ class Auth extends React.Component {
             <LinearProgress mode="indeterminate" color="#FF9800" />
           </div>
         }
-        {optError &&
+        {!pending && optError &&
           <Snackbar open={true} message={<div>操作失败:{optError.message || optError.toString()}</div>} autoHideDuration={3000} />
         }
       </div>

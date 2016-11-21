@@ -1,51 +1,57 @@
 import fetch from 'isomorphic-fetch'
 import update from 'react/lib/update'
 
-export const add = data => {
-  return dispatch => {
-    dispatch({
-      type: 'OPT_BEGIN',
-    });
+import { getHeader } from '../../../utils'
 
-    return fetch('/backend/heart', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response => response.json())
-      .then(json => {
+export const login = data => {
+    return dispatch => {
         dispatch({
-          type: 'HEART_ADD_SUCCESS',
-          data: {},
+            type: 'OPT_BEGIN',
         });
-        dispatch({
-          type: 'OPT_SUCCESS',
-        });
-      }, )
-      .catch(error => {
-        dispatch({
-          type: 'OPT_FAILURE',
-          error,
-        });
-      });
 
-  }
+        return fetch('/backend/auth/login', {
+            method: 'POST',
+            headers: getHeader(),
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (!response.ok) {
+                dispatch({
+                    type: 'OPT_FAILURE',
+                    error: { message: response.statusText },
+                });
+            } else {
+                response.json().then(data => {
+                    localStorage.setItem('userToken', data.token)
+                    dispatch({
+                        type: 'LOGIN_SUCCESS',
+                        data: data.token,
+                    });
+                    dispatch({
+                        type: 'OPT_SUCCESS',
+                    });
+                })
+            }
+        }).catch(error => {
+            dispatch({
+                type: 'OPT_FAILURE',
+                error,
+            });
+        });
+    }
 }
 
 export function reducer(state, action) {
-  switch (action.type) {
+    switch (action.type) {
 
-    case 'HEART_ADD_SUCCESS':
-      return update(state, {
-        heart: {
-          needReloadList: { $set: true },
-        },
-      });
+        case 'LOGIN_SUCCESS':
+            return update(state, {
+                auth: {
+                    isAuth: { $set: true },
+                    token: { $set: action.data },
+                },
+            });
 
-    default:
-      return state;
-  }
+        default:
+            return state;
+    }
 }

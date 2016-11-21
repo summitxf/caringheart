@@ -34,19 +34,7 @@ export const fetchList = () => {
 export function reducer(state, action) {
   switch (action.type) {
 
-    case 'FETCH_HEART_LIST_SUCCESS':
-      return update(state, {
-        heart: {
-          needReloadList: { $set: false },
-          listData: { $set: action.data },
-        },
-      });
-    case 'FETCH_HEART_LIST_FAIL':
-      return update(state, {
-        heart: {
-          needReloadList: { $set: false }
-        },
-      });
+
 
     default:
       return state;

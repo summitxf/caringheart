@@ -38,12 +38,6 @@ export const deleteData = data => {
 export function reducer(state, action) {
   switch (action.type) {
 
-    case 'HEART_DEL_SUCCESS':
-      return update(state, {
-        heart: {
-          needReloadList: { $set: true },
-        },
-      });
 
     default:
       return state;

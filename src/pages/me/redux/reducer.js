@@ -1,12 +1,10 @@
 import initialState from './initialState';
-import { reducer as add } from './add';
-import { reducer as list } from './list';
-import { reducer as del } from './delete';
+import { reducer as me } from './me';
+import { reducer as setting } from './setting';
 
 const reducers = [
-  add,
-  list,
-  del,
+  me,
+  setting,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -15,16 +15,21 @@ export const add = data => {
       },
       body: JSON.stringify(data)
     })
-      .then(response => response.json())
-      .then(json => {
-        dispatch({
-          type: 'WATER_ADD_SUCCESS',
-          data: {},
-        });
-        dispatch({
-          type: 'OPT_SUCCESS',
-        });
-      }, )
+      .then(response => {
+        if (!response.ok) {
+          dispatch({
+            type: 'OPT_FAILURE',
+            error: { message: response.statusText },
+          });
+        } else {
+          dispatch({
+            type: 'WATER_ADD_SUCCESS',
+          });
+          dispatch({
+            type: 'OPT_SUCCESS',
+          });
+        }
+      })
       .catch(error => {
         dispatch({
           type: 'OPT_FAILURE',

@@ -9,15 +9,23 @@ export const fetchList = () => {
     });
 
     return fetch('/backend/heart/30')
-      .then(response => response.json())
-      .then(data => {
-        dispatch({
-          type: 'FETCH_HEART_LIST_SUCCESS',
-          data,
-        });
-        dispatch({
-          type: 'OPT_SUCCESS',
-        });
+      .then(response => {
+        if (!response.ok) {
+          dispatch({
+            type: 'OPT_FAILURE',
+            error: { message: response.statusText },
+          });
+        } else {
+          response.json().then(data => {
+            dispatch({
+              type: 'FETCH_HEART_LIST_SUCCESS',
+              data: data,
+            });
+            dispatch({
+              type: 'OPT_SUCCESS',
+            });
+          })
+        }
       })
       .catch(error => {
         dispatch({

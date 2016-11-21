@@ -2,7 +2,13 @@ import React from 'react';
 
 import Paper from 'material-ui/Paper';
 
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { commonActions } from '../components/commonRedux'
+
 const style = {
+  margin: 0,
+  padding: 0,
   height: "100%",
   width: "100%",
   textAlign: 'center',
@@ -21,7 +27,12 @@ class WelcomePage extends React.Component {
     this.setState({ code });
 
     this.timeoutId = setTimeout(() => {
-      this.context.router.push('/app')
+      let token = localStorage.getItem('userToken') || null
+      if (this.props.isAuth || token) {
+        this.context.router.push('/app')
+      } else {
+        this.context.router.push('/auth')
+      }
     }, 3000)
   }
 
@@ -46,4 +57,18 @@ WelcomePage.contextTypes = {
   router: React.PropTypes.object
 }
 
-export default WelcomePage;
+const mapStateToProps = (state) => {
+  const { pending } = state.commonReducer;
+  const { isAuth } = state.authReducer.auth;
+  return {
+    pending, isAuth
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(Object.assign(commonActions), dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomePage)

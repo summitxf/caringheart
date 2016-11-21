@@ -1,7 +1,7 @@
 const initialState = {
-  heart: {
-    needReloadList: true,
-    listData: [],
+  auth: {
+    isAuth: false,
+    token: "",
   }
 };
 
